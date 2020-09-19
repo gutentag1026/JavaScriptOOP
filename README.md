@@ -167,3 +167,42 @@ const circle = new Circle(10);
 circle.getDefaultLocation();//method 1 to access private var
 circle.defaultLocation//method 2 to access private var READONLY
 ```
+```
+function Stopwatch() {
+    let start, end, duration, running = 0;
+
+    this.start = function () {
+        if (running)
+            throw new Error('Stop watch has already started.'); 
+        running = true;
+        start = new Date();
+    }
+    this.stop = function () {
+        if (!running)
+            throw new Error("Stop watch hasn't started."); 
+        running = false;
+        end = new Date();
+        const seconds = (end.getTime() - start.getTime()) / 1000;
+        duration += seconds;
+    }
+  
+    this.reset = function () {
+        start = null;
+        end = null;
+        duration = 0;
+        running = false;
+    }
+
+    Object.defineProperty(this, 'duration', {
+        get: function(){ //READONLY
+            return duration; 
+        }
+    });
+}
+```
+
+## Inheritance
+classical | prototype
+```
+Object.getPrototypeOf(myObj);
+```
