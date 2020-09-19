@@ -1,5 +1,5 @@
 # JavaScriptOOP
-JavaScriptOOP
+
 
 ## object Literals
 ```
@@ -153,7 +153,7 @@ function Circle(radius) {
     Object.defineProperty(this, 'defaultLocation', {
         get: function(){ //READONLY
             return defaultLocation;
-        }
+        },
         set: function(value) {
             if (!value.x || !value.y) 
                 throw new Error('Invalid location.');
