@@ -206,3 +206,72 @@ classical | prototype
 ```
 Object.getPrototypeOf(myObj);
 ```
+## property descriptor
+```
+let person = { name: 'Mosh' };
+for (let key in person)
+    console.log(key); //name
+Object.keys(person); // ["name"]
+let objectBase = Object.getPrototypeOf(person); // myObj.__proto__(parent of myObj)
+let descriptor = Object.getOwnPropertyDescriptor(objectBase, 'toString');
+console.log(descriptor);
+// {value: f, writable: true, enumerable: false, configurable: true}
+// configurable: true enumerable: false value: f toString() writable: true __proto__: Object
+
+objectBase.defineProperty(person, 'name', {
+    writable: false, // cannot delete name 
+    enumerable: true,
+    configurable: false
+});
+
+delete person.name;
+```
+## ProtoType vs Instance memeber
+```
+function Cirlce(radius) {
+    //instance member
+    this.radius = radius;
+
+    this.move = function () {
+        this.draw(); // prototype and instance member inherite each other
+        console.log('move');
+    }
+}
+Cirlce.prototype.draw = function() {
+    //this.move();
+    console.log("draw");
+}
+
+Cirlce.prototype.toString = function () {
+    return 'Circle with radius ' + this.radius;
+}
+const c1 = new Cirlce(1);
+c1.move() // draw move
+const c2 = new Cirlce(1);
+
+console.log(Object.keys(c1)); //["radius", "move"]
+for (let key in c1) console.log(key); // radius, move, draw
+c1.hasOwnProperty('radius') // true
+c1.hasOwnProperty('draw') // false
+```
+// don't modify objects you don't own   
+## create your own prototypes inheritance
+```
+function Shape() {
+} 
+
+Shape.prototype.duplicate = function() {
+    console.log('duplicate');
+}
+
+function Circle(radius) {
+    this.radius = radius;
+} 
+
+Circle.prototype.draw = function() {
+    console.log('draw');
+}
+
+const s = new Shape(); // s -> shapeBase(Shape.prototype) -> objectBase
+const c = new Circle(1);
+```
