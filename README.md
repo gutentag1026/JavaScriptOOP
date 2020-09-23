@@ -275,3 +275,107 @@ Circle.prototype.draw = function() {
 const s = new Shape(); // s -> shapeBase(Shape.prototype) -> objectBase
 const c = new Circle(1);
 ```
+circle inheritate shape
+```
+Circle.prototype = Object.create(Shape.prototype); 
+```
+## Resetting the constructor: reset the prototype, reset the constructor
+```
+new Circle.prototype.constructor(1);
+new Circle(1);
+Circle.prototype.constructor = Circle; 
+```
+## Calling the super constructor
+```
+function Shape(color) {
+this.color = color;
+} 
+
+Shape.prototype.duplicate = function() {
+    console.log('duplicate');
+}
+
+function Circle(radius, color) {
+    Shape.call(this, color);
+    this.radius = radius;
+} 
+
+Circle.prototype.draw = function() {
+    console.log('draw');
+}
+
+const s = new Shape(); // s -> shapeBase(Shape.prototype) -> objectBase
+const c = new Circle(1);
+```
+## Intermediate function Inheritance
+```
+function extend(Child,Parent){
+    Child.prototyp.constructor = Object.create(Parent.prototype);
+    Child.prototype.constructor = Child;
+}
+
+extend(Circle, Shape);
+```
+## Method overwriting
+```
+function extend(Child,Parent){
+    Child.prototyp.constructor = Object.create(Parent.prototype);
+    Child.prototype.constructor = Child;
+}
+function Shape() {
+} 
+Shape.prototype.duplicate = function() {
+    console.log('duplicate');
+}
+function Circle() {
+}
+extend(Circle, Shape);
+Circle.prototype.duplicate = function() {
+  Shape.prototype.duplicate.call(this); //without this line it would only call 'duplicate cirlce'
+  console.log('duplicate cirlce');
+}
+c.duplicate() //first call: 'duplicate' second call: 'duplicate cirlce'
+```
+## Polymorphism
+```
+function Shape(){}
+Shape.prototype.duplicate = function(){ console.log('duplicate') };
+function Circle(){};
+extend(Circle, Shape);
+Circle.prototype.duplicate = function(){ console.log('duplicate circle') };
+function Square(){};
+extend(Square, Shape);
+Square.prototype.duplicate = function(){ console.log('duplicate Square') };
+
+const shapes = [ new Circle(), new Square()];
+for (let shape of shapes)
+    shape.duplicate();//'duplicate circle' 'duplicate Square'
+```
+## Mixins
+``` 
+function mixin(target, ...sources){
+    Object.assign(target, ...sources);
+}
+const canEat = {
+    eat: function(){
+        this.hunger--;
+        console.log('eating');
+    }
+};
+const canWalk = {
+    walk: function(){
+        console.log('walking');
+    }
+};
+const canSwim = {
+    swim: function(){
+        console.log('Swimming');
+    }
+};
+function Person(){}
+Object.assign({Person.prototype}, canEat, canWalk); 
+const person = new Person();
+console.log(person);//__proto__: eat:f walk:f constructor: f Person() __proto__:Object
+function Goldfish(){}
+mixin(Goldfish.prototype, canEat, canSwim); const goldfish = new Goldfish();
+```
