@@ -113,7 +113,7 @@ const keys = Object.keys(circle); //["radius", "draw"]
 if ('radius' in circle)
   console.log("Circle has a radius");
 ```
-## abstration
+## abstration hide details show essentials
 ```
 function Circle(radius) {
     this.radius = radius;
@@ -127,8 +127,9 @@ function Circle(radius) {
     }
    
     this.draw = function(){
-        let x, y; //scope is temporary....finish after executing
+        let x, y; //scope is temporary....finish after executing within draw
         computeOptimumLocation(0.1);
+        
     };
 
 }
