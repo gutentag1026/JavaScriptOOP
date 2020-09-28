@@ -228,6 +228,7 @@ objectBase.defineProperty(person, 'name', {
 delete person.name;
 ```
 ## ProtoType vs Instance memeber
+Circle.prototype ===  c1.__proto__
 ```
 function Cirlce(radius) {
     //instance member
@@ -250,13 +251,15 @@ const c1 = new Cirlce(1);
 c1.move() // draw move
 const c2 = new Cirlce(1);
 
-console.log(Object.keys(c1)); //["radius", "move"]
-for (let key in c1) console.log(key); // radius, move, draw
-c1.hasOwnProperty('radius') // true
+console.log(Object.keys(c1)); //["radius", "move"] only show instance
+for (let key in c1) console.log(key); // radius, move, draw also show prototype
+c1.hasOwnProperty('radius') // true ONLY INSTANCE MEMBER
 c1.hasOwnProperty('draw') // false
 ```
 // don't modify objects you don't own   
 ## create your own prototypes inheritance
+Shape->__proto__:duplicate,constructor,__proto__->constructor: f Object()
+Circle->radius:1,__proto__->draw,constructor:f Circle(radius),__proto__->constructor: f Object()
 ```
 function Shape() {
 } 
@@ -278,13 +281,14 @@ const c = new Circle(1);
 ```
 circle inheritate shape
 ```
-Circle.prototype = Object.create(Shape.prototype); 
+Circle.prototype = Object.create(Shape.prototype); // 
+->radius:1,__proto__:Shape->draw,__proto__->constructor:f shape, duplicate,__proto__-: f Object()
 ```
 ## Resetting the constructor: reset the prototype, reset the constructor
 ```
 new Circle.prototype.constructor(1);
 new Circle(1);
-Circle.prototype.constructor = Circle; 
+Circle.prototype.constructor() = Circle(); 
 ```
 ## Calling the super constructor
 ```
@@ -320,7 +324,7 @@ extend(Circle, Shape);
 ## Method overwriting
 ```
 function extend(Child,Parent){
-    Child.prototyp.constructor = Object.create(Parent.prototype);
+    Child.prototype = Object.create(Parent.prototype);
     Child.prototype.constructor = Child;
 }
 function Shape() {
