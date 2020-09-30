@@ -411,3 +411,25 @@ object.create(HtmlElement.prototype); // this gets u an empty HtmlSelectElement
 //HtmlSelectElement -> addItem, items, removeItem, __proto__:__proto__, focus:f(), constructor HtmlElement->__proto__:Object
 HtmlSelectElement.prototype.constructor = HtmlSelectElement;
 ```
+###  polymorphsim  excercise
+```
+function HTMLSelectElement(){
+  this.render = function(arr){
+    return `<select>
+      ${this.items.map(item =>
+        `<option>
+        ${item}
+        </option>`).join('')}
+      </select>`;
+  }
+}
+
+function HtmlImageElement(src){
+  this.src = src;
+  this.render() = function(){
+   return `<img src="${this.src}" />`;
+  }
+}
+HtmlImageElement.prototype = new HtmlElement(); 
+HtmlImageElement.prototype.constructor = HtmlImageElement;
+```
