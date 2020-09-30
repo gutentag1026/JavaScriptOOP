@@ -557,3 +557,22 @@ class Circle {
 
 const c = new Circle(1);
 ```
+### getters and setters 
+```
+const _radius = new WeakMap();
+
+class Circle {
+  constructor (radius) {
+    _radius.set(this, radius);
+  }
+  get radius() {
+    return _radius.get(this);
+  }
+  set radius(value) {
+    if (valuue <= 0) throw new Error('Invalid Radius');
+    _radius.set(this, value);
+  }
+}
+
+const c = new Circle(1);
+```
