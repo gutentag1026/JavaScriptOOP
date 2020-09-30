@@ -384,3 +384,30 @@ console.log(person);//__proto__: eat:f walk:f constructor: f Person() __proto__:
 function Goldfish(){}
 mixin(Goldfish.prototype, canEat, canSwim); const goldfish = new Goldfish();
 ```
+### prototype inheritance
+```
+function HtmlElement(){
+  this.click = function(){
+    console.log('click');
+  }
+}
+
+HtmlElement.prototype.focus = function(){ 
+}
+
+function HtmlSelectElement(items = []){
+  this.items = items;
+  
+  this.addItem = function(item){
+    this.items.push(item);
+  }
+  
+  this.removeItem = function(item){
+    this.items.splice(this.items.indexOf(item), 1);
+  }
+}
+HtmlSelectElement.prototype = new HtmlElement(); 
+object.create(HtmlElement.prototype); // this gets u an empty HtmlSelectElement
+//HtmlSelectElement -> addItem, items, removeItem, __proto__:__proto__, focus:f(), constructor HtmlElement->__proto__:Object
+HtmlSelectElement.prototype.constructor = HtmlSelectElement;
+```
