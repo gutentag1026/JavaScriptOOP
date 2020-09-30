@@ -433,3 +433,63 @@ function HtmlImageElement(src){
 HtmlImageElement.prototype = new HtmlElement(); 
 HtmlImageElement.prototype.constructor = HtmlImageElement;
 ```
+### ES6 Classes   classes are functions
+```
+function Circle(radius){
+    this.radius = radius;
+    this.draw = function(){
+        //do sth
+    }
+}
+
+class Circle {
+  constructor(radius){
+    this.radius = radius;
+  }
+
+  draw(){
+    console.log('draw');
+  }
+}
+
+const c = new Circle(1); // Circle->radius,__proto__->constructor, draw, __proto__
+```
+
+### hoisting
+```
+sayHello()// this works sayGoodbye // this doesn't
+//functional hoisting
+function sayHello(){}
+// functional expression
+const sayGoodbye = function(){}
+```
+//function can be  hoisted, expression cannot 
+//class cannot be hoisted
+```
+const c = new Circle(1);
+//class declaration
+class Circle{}
+//class expression
+const Square = class {  
+};
+```
+### static method
+```
+class Circle {
+  constructor(radius){
+    this.radius = radius;
+  }
+
+  draw(){
+    console.log('draw');
+  }
+
+  static parse(str) {
+    const radius = JSON.parse(str).radius;
+    return new Circle(radius);
+  }
+}
+
+const circle = Circle.parse('{"radius":1}');
+console.log(circle);//Circle {radius:1}=>radius:1,__proto__:Object
+```
