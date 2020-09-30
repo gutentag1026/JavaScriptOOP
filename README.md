@@ -493,3 +493,67 @@ class Circle {
 const circle = Circle.parse('{"radius":1}');
 console.log(circle);//Circle {radius:1}=>radius:1,__proto__:Object
 ```
+
+```
+'use strict';//use strict mode to prevent modify global objects
+
+const Circle = function(){
+  this.draw = function(){
+    console.log(this);
+  }
+};
+
+const c = new Circle();
+//method call
+c.draw();
+const draw = c.draw;
+//functional call
+draw(); // global object
+```
+## ES6 private member using Symbol
+```
+Symbol() === Symbol() //false
+
+const _radius = Symbol();
+const _draw = Symbol();
+class Circle {
+  constructor (radius){
+    //this.radius = radius;
+    //this['radius'] = radius;
+    this[_radius] = radius;
+  }
+  [_draw](){
+
+  }
+}
+
+const c = new Circle(1); //Circle->Symbol(),__proto__
+
+//const key = Object.getOwnPropertySymbols(c)[0];
+console.log(c[key]);//1
+```
+### WeakMap {key:value}
+```
+const _radius = new WeakMap(); // key are weak, value can be edited
+const _move = new WeakMap();
+class Circle {
+  constructor(radius) {
+    _radius.set(this, radius);//(key:object, value) this makes Circle empty -> __proto__
+   // _move.set(this, function(){
+   //   console.log('move', this);// undefined this, c.draw() move undefined 
+   // });
+    _move.set(this, () => {
+      console.log('move', this);// move -> Circle {}, draw
+    });
+
+  }
+
+  draw() {
+    console.log(_radius.get(this));//
+    _move.get(this)(); // read private member 
+    console.log('draw')
+  }
+}
+
+const c = new Circle(1);
+```
