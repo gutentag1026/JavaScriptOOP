@@ -569,7 +569,7 @@ class Circle {
     return _radius.get(this);
   }
   set radius(value) {
-    if (valuue <= 0) throw new Error('Invalid Radius');
+    if (value <= 0) throw new Error('Invalid Radius');
     _radius.set(this, value);
   }
 }
