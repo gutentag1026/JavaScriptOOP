@@ -576,3 +576,117 @@ class Circle {
 
 const c = new Circle(1);
 ```
+### inheritance
+```
+class Shape {
+    constructor(color){
+        this.color = color;
+        }
+    move() {
+        console.log('move');
+        }
+}
+class Circle extends Shape {
+    constructor(color, radius){
+    super(color);
+    this.radius = radius;
+    }
+    
+    draw() {
+        console.log('draw');
+        }
+}
+const c = new Circle(); // Circle=>proto:Shape->constructor:Circle, draw->proto:constructor  shape,move->__proto__
+```
+### method overwriting
+```
+class Shape {
+    move() {
+        console.log('move');
+        }
+}
+class Circle extends Shape {
+    move() {
+        super.move();
+        console.log('circle move');
+        }
+}
+const c = new Circle();//move,circle move
+```
+### stack
+```
+//implementationt detail
+const _items = new WeakMap();
+//public interface
+class Stack {
+    constructor() {
+     _items.set(this, []);
+    }
+    
+    push(obj){
+    _items.get(this).push(obj);
+    }
+    
+    pop() {
+        if (_items.get(this).length === 0)
+            throw new error('Stack is empty');
+        return _items.get(this).pop();
+    }
+    
+    peek() {
+       if (_items.get(this).length === 0)
+            throw new error('Stack is empty');
+       return _items.get(this)[_items.get(this).length - 1);
+   }
+   
+   get count() {
+        return _items.get(this).length;
+        }
+}
+```
+### modules
+export
+```
+module.exports.Circle = Circle;
+```
+require
+```
+const Circle = require('./circle');
+const c = new Circle(10);
+```
+### ES6 modules
+export
+```
+export class xxx {
+}
+```
+import
+```
+import {Circle} from './circle.js';
+```
+index.html 
+```
+<script type="module" src="index.js"></script>
+```
+### tools
+transpiler: translate + compiler 
+Bundler: webpack combines .js into one file
+
+###Babel
+$npm init --yes (creates pakage.json)
+$npm i babel-cli@6.26.0 babel-core@6.26.0 babel-preset-env@1.6.1 --save-dev
+command line interface / core of babel / let const => plugin
+package.json
+"script":{
+    "babel": "babel --preset3 env index.js -o build/index.js"
+},
+$npm run babel
+### wenpack
+$npm i -g webpack-cli@2.0.14
+$webpack-cli init
++
+package.json
+"script":{
+    "build": "webpack -w"
+},
+$npm run build
