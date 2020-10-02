@@ -681,7 +681,7 @@ package.json
     "babel": "babel --preset3 env index.js -o build/index.js"
 },
 $npm run babel
-### wenpack
+### webpack
 $npm i -g webpack-cli@2.0.14
 $webpack-cli init
 +
